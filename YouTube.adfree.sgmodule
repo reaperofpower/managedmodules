@@ -1,7 +1,7 @@
 #!name = YouTube Ad Block
 #!desc = Supports PiP and background playback
 #!author = reaper
-#!icon = https://raw.githubusercontent.com/reaperofpower/managedmodules/blob/master/YouTube.png
+#!icon = https://raw.githubusercontent.com/reaperofpower/managedmodules/master/YouTube.png
 [URL Rewrite]
 (^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) 302 $1$2$3
 ^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad reject-200
