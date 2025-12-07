@@ -10,16 +10,32 @@ AND,((DOMAIN,youtubei.googleapis.com), (PROTOCOL,UDP)),REJECT
 
 [Url Rewrite]
 # /Modules/YT-Adblocker.module
+
+# ======= Googlevideo oad init / general oad ======= #
 # ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad - reject-img
 ^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad _ reject-200
+
 # ======= Universal Ad Request ======= #
 ^https?:\/\/(www|s)\.youtube\.com\/api\/stats\/ads _ reject-200
 ^https?:\/\/(www|s)\.youtube\.com\/(pagead|ptracking) _ reject-200
-^https?:\/\/s\.youtube\.com\/api\/stats\/qoe\?adcontext _ reject-200
+
+# Improved: match qoe where adcontext can appear anywhere in query
+^https?:\/\/s\.youtube\.com\/api\/stats\/qoe.*[?&]adcontext= _ reject-200
+
+# New: viewability / activeview tracking pixels
+^https?:\/\/(www|s)\.youtube\.com\/pcs\/activeview\? _ reject-200
+
+# New: DoubleClick impression tracking
+^https?:\/\/ad\.doubleclick\.net\/ddm\/trackimp\/ _ reject-200
+
+# New: YouTube app analytics (telemetry)
+^https?:\/\/app-analytics-services\.com\/a _ reject-200
+
 # ======= Player & Telemetry Ad Calls ======= #
 ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event.*ad _ reject-200
 ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player\/ad_break _ reject-200
 ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/ads _ reject-200
+
 # ======= General Video Ad request ======= #
 (^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
 
@@ -28,9 +44,13 @@ AND,((DOMAIN,youtubei.googleapis.com), (PROTOCOL,UDP)),REJECT
 
 [Script]
 # ======= Search|Play Page|Short Video ||| PiP|Background Play ======= #
+
+# (Commented original Maasea preview scripts kept for reference)
 # youtube = type=http-response,pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting),requires-body=1,binary-body-mode=1,script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/dist/youtube.response.preview.js
 # youtube.request = type=http-request,pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|reel\/reel_watch_sequence|get_watch),requires-body=1,max-size=-1,binary-body-mode=1,engine={{{scriptExecutionEngine}}},script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/dist/youtube.request.preview.js
 # youtube.response = type=http-response,pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch),requires-body=1,max-size=-1,binary-body-mode=1,engine={{{scriptExecutionEngine}}},script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/dist/youtube.response.preview.js,argument="{"lyricLang":"{{{lyricLang}}}","captionLang":"{{{captionLang}}}","blockUpload":{{{blockUpload}}},"blockImmersive":{{{blockImmersive}}},"debug":{{{debug}}}}"
+
+# Active response script (unchanged, still uses external script-path)
 youtube.response = type=http-response,pattern=^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$,requires-body=1,max-size=-1,binary-body-mode=1,script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.response.js,argument="{"lyricLang":"{{{lyricLang}}}","captionLang":"{{{captionLang}}}","blockUpload":"{{{blockUpload}}}","blockImmersive":"{{{blockImmersive}}}","blockShorts":"{{{blockShorts}}}","debug":"{{{debug}}}"}"
 
 [MITM]
