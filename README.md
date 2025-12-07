@@ -10,7 +10,7 @@ These scripts are tested with Surge; compatibility with other clients is not gua
 - **For:** YouTube & YouTube Music
 - **Install:** [Link](YouTube.Enhance.sgmodule?raw=true)
 - **Alternative:** [YouTube Lite](YouTube.Lite.sgmodule?raw=true) (more memory-friendly)
-- **Ad Free:** [YouTube Lite](YouTube.adfree.sgmodule?raw=true)
+- **Ad Free:** [YouTube Lite](YT-Premium.sgmodule?raw=true)
 
 ---
 
