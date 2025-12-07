@@ -16,6 +16,10 @@ AND,((DOMAIN,youtubei.googleapis.com), (PROTOCOL,UDP)),REJECT
 ^https?:\/\/(www|s)\.youtube\.com\/api\/stats\/ads _ reject-200
 ^https?:\/\/(www|s)\.youtube\.com\/(pagead|ptracking) _ reject-200
 ^https?:\/\/s\.youtube\.com\/api\/stats\/qoe\?adcontext _ reject-200
+# ======= Player & Telemetry Ad Calls ======= #
+^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event.*ad _ reject-200
+^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player\/ad_break _ reject-200
+^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/ads _ reject-200
 # ======= General Video Ad request ======= #
 (^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
 
